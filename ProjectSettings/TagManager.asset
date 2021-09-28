@@ -40,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Async Running
+    uniqueID: 756760389
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
