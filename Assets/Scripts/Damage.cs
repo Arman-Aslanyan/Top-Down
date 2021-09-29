@@ -17,6 +17,12 @@ public class Damage : MonoBehaviour
 
         if (dstryOnCollider)
             Destroy(gameObject);
+
+        Death d = GetComponent<Death>();
+        if (d != null)
+        {
+            d.OnDeath.Invoke();
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -25,6 +31,11 @@ public class Damage : MonoBehaviour
         if (hp != null)
         {
             hp.HealthChange(-pain);
+        }
+        Death d = GetComponent<Death>();
+        if (d != null)
+        {
+            d.OnDeath.Invoke();
         }
     }
 

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8683962541212717266}
   - component: {fileID: -5002928801099945200}
   - component: {fileID: -8169390574799172036}
+  - component: {fileID: -2197104390548042482}
   m_Layer: 8
   m_Name: Bullet
   m_TagString: Projectile
@@ -176,3 +177,18 @@ MonoBehaviour:
   prefabToMake: {fileID: 2008967133343177771, guid: 85f5c642d82d3a4489d54a43eb3bfc80, type: 3}
   offset: {x: 0, y: 0, z: 0}
   randOffset: 0
+--- !u!114 &-2197104390548042482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296073409893405442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3966f5344dbdda54fb57fec2ea0e543a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []

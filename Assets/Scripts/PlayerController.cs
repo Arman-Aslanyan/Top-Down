@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     //Laser Shoot variables
     public GameObject Laser;
+    public GameObject largeBullet;
     public float cooldown = 0.2f;
     float timer = 0;
     public float LaserSpeed = 15;
@@ -105,29 +106,66 @@ public class PlayerController : MonoBehaviour
     //spawns one object with an offset from the spawner
     void Fire(Vector3 offset, bool largeShot)
     {
+        GameObject clone;
+        Rigidbody2D cloneRb;
+        Rigidbody2D cloneRbAgain;
+        Vector3 largeBulOffset = new Vector3(0, -3.0f, 0);
+        Vector3 largeBulOffset2 = new Vector3(0, 3.0f, 0);
+        Vector3 spawnPos = transform.position + transform.rotation * largeBulOffset2;
         if (largeShot)
         {
             //Shoot very large bullet with drawbacks
+            shotsFired += 10;
+
+            //set the speed of the clone
+            if (spR.sprite == Up)
+            {
+                Vector3 spawnPos2 = transform.position + transform.rotation * largeBulOffset;
+
+                clone = Instantiate(largeBullet, spawnPos2, transform.rotation);
+                cloneRb = clone.GetComponent<Rigidbody2D>();
+                cloneRb.velocity = -transform.up * LaserSpeed;
+            }
+            else if (spR.sprite == Down)
+            {
+                clone = Instantiate(largeBullet, spawnPos, transform.rotation);
+                cloneRb = clone.GetComponent<Rigidbody2D>();
+                cloneRb.velocity = transform.up * LaserSpeed;
+            }
+            else
+            {
+                //Pain
+                Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            }
+
+            cloneRb = largeBullet.GetComponent<Rigidbody2D>();
+            cloneRb.velocity += rb.velocity;
+            CF.TriggerShake(fireShakeTime * 2, fireShakeMag * 2);
         }
         else
         {
             shotsFired += 0.5f;
-            Vector3 spawnPos;
             //create the object with a position offset and affected by the rotation of the spawner
-            if (Input.GetKeyDown(KeyCode.W))
+            if (spR.sprite == Up)
             {
-                Vector3 pos = transform.position + new Vector3(0, 1, 0);
-                spawnPos = transform.position + transform.rotation * offset;
+                spawnPos = transform.rotation * offset;
             }
-            else
+            else if (spR.sprite == Down)
             {
-                spawnPos = transform.position + transform.rotation * offset;
+                spawnPos = transform.rotation * offset;
             }
-            GameObject clone = Instantiate(Laser, spawnPos, transform.rotation);
+            clone = Instantiate(Laser, spawnPos, transform.rotation);
             //set the speed of the clone
-            Rigidbody2D cloneRb = clone.GetComponent<Rigidbody2D>();
-            cloneRb.velocity = -transform.up * LaserSpeed;
-            cloneRb.velocity += rb.velocity;
+            cloneRbAgain = clone.GetComponent<Rigidbody2D>();
+            if (spR.sprite == Up)
+            {
+                cloneRbAgain.velocity = -transform.up * LaserSpeed;
+            }
+            else if (spR.sprite == Down)
+            {
+                cloneRbAgain.velocity = transform.up * LaserSpeed;
+            }
+            cloneRbAgain.velocity += rb.velocity;
             CF.TriggerShake(fireShakeTime, fireShakeMag);
         }
     }

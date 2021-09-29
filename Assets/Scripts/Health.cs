@@ -8,8 +8,8 @@ public class Health : MonoBehaviour
     public int maxHp = 10;
 
     public bool dstryAtZero = true;
-    private SpriteRenderer sprRend;
-    private bool deathAnim = true;
+    //private SpriteRenderer sprRend;
+    //private bool deathAnim = true;
 
     //Call this to change the health of the respective object
     public void HealthChange(int changeHp)
@@ -19,17 +19,22 @@ public class Health : MonoBehaviour
         {
             //optional: Negats negative hp
             curHp = 0;
+            //Destroy(gameObject);
             if (dstryAtZero)
             {
-                //StartCoroutine(TimedDestroy(0.2f, 255));
-                Destroy(gameObject);
+                Death d = GetComponent<Death>();
+                if (d != null)
+                {
+                    d.OnDeath.Invoke();
+                }
+                StartCoroutine(TimedDestroy(0.2f));
             }
         }
     }
 
-    public IEnumerator TimedDestroy(float deathTime, int trans)
+    public IEnumerator TimedDestroy(float deathTime)
     {
-        while (deathAnim)
+        /*while (deathAnim)
         {
             yield return new WaitForSeconds(deathTime);
             sprRend.color = new Color(1,1,1,trans);
@@ -39,7 +44,10 @@ public class Health : MonoBehaviour
             {
                 deathAnim = false;
             }
-        }
+        }*/
+
+        yield return new WaitForSeconds(deathTime);
+        Destroy(gameObject);
     }
 
     // Start is called before the first frame update

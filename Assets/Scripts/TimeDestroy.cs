@@ -15,7 +15,11 @@ public class TimeDestroy : MonoBehaviour
     public IEnumerator CauseDeath()
     {
         yield return new WaitForSeconds(deathTime);
-
+        Death d = GetComponent<Death>();
+        if (d != null)
+        {
+            d.OnDeath.Invoke();
+        }
         Destroy(gameObject);
     }
 

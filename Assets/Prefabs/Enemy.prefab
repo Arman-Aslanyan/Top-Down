@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 25641365}
   - component: {fileID: 7769600859816731832}
   - component: {fileID: 2051187934}
+  - component: {fileID: 8428629997549838331}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -121,7 +122,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &7769600859816731832
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -156,7 +157,22 @@ MonoBehaviour:
   curPoint: 0
   paceSpeed: 5
   closeEnough: 0.1
-  chaseDistance: 4
-  chaseSpeed: 5
+  chaseDistance: 8
+  chaseSpeed: 15
   target: {fileID: 0}
   rb: {fileID: 0}
+--- !u!114 &8428629997549838331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6365755729801181847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3966f5344dbdda54fb57fec2ea0e543a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []

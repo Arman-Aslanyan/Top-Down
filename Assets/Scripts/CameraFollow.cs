@@ -50,6 +50,10 @@ public class CameraFollow : MonoBehaviour
                 Vector3 shakeDir = Random.insideUnitCircle;
                 transform.position += shakeDir * shakeMagnitude;
             }
+            else
+            {
+                shakeMagnitude = 0;
+            }
         }
     }
 }
