@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     public Sprite Up;
     public Sprite Down;
 
+    private AudioSource audioS;
+    public AudioClip largeBulSound;
+    public AudioClip regularBulSound;
+
     CameraFollow CF;
     public float fireShakeTime = 0.1f;
     public float fireShakeMag = 0.2f;
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spR = GetComponent<SpriteRenderer>();
         CF = FindObjectOfType<CameraFollow>();
+        audioS = GetComponent<AudioSource>();
         particleSys = GetComponentInChildren<ParticleSystem>();
         particleSys.Stop();
     }
@@ -76,11 +81,13 @@ public class PlayerController : MonoBehaviour
             {
                 //reset the timer
                 timer = 0;
+                audioS.PlayOneShot(regularBulSound);
                 Fire(offset1, false);
                 Fire(offset2, false);
             }
             else if (timer > cooldown && Input.GetKeyDown(KeyCode.R))
             {
+                audioS.PlayOneShot(largeBulSound);
                 Fire(Vector3.zero, true);
             }
         }
@@ -148,24 +155,28 @@ public class PlayerController : MonoBehaviour
             //create the object with a position offset and affected by the rotation of the spawner
             if (spR.sprite == Up)
             {
-                spawnPos = transform.rotation * offset;
-            }
-            else if (spR.sprite == Down)
-            {
-                spawnPos = transform.rotation * offset;
-            }
-            clone = Instantiate(Laser, spawnPos, transform.rotation);
-            //set the speed of the clone
-            cloneRbAgain = clone.GetComponent<Rigidbody2D>();
-            if (spR.sprite == Up)
-            {
+                offset1.y = -0.5f;
+                offset2.y = -0.5f;
+                spawnPos = transform.position + offset;
+
+                clone = Instantiate(Laser, spawnPos, transform.rotation);
+                //set the speed of the clone
+                cloneRbAgain = clone.GetComponent<Rigidbody2D>();
                 cloneRbAgain.velocity = -transform.up * LaserSpeed;
+                cloneRbAgain.velocity += rb.velocity;
             }
             else if (spR.sprite == Down)
             {
+                offset1.y = 0.5f;
+                offset2.y = 0.5f;
+                spawnPos = transform.position + offset;
+
+                clone = Instantiate(Laser, spawnPos, transform.rotation);
+                //set the speed of the clone
+                cloneRbAgain = clone.GetComponent<Rigidbody2D>();
                 cloneRbAgain.velocity = transform.up * LaserSpeed;
+                cloneRbAgain.velocity += rb.velocity;
             }
-            cloneRbAgain.velocity += rb.velocity;
             CF.TriggerShake(fireShakeTime, fireShakeMag);
         }
     }

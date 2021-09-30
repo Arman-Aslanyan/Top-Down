@@ -10,12 +10,19 @@ public class ScoreText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        score = GetComponent<TMP_Text>();
+        score = gameObject.GetComponent<TMP_Text>();
+        ChangeText();
+        GameManager.OnScoreChange.AddListener(ChangeText);
+    }
+
+    public void ChangeText()
+    {
+        score.text = "Score: " + GameManager.score;
     }
 
     // Update is called once per frame
     void Update()
     {
-        score.text = "Score: " + GameManager.score;
+
     }
 }

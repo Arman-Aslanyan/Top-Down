@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Death : MonoBehaviour
 {
-    public UnityEvent OnDeath;
+    public UnityEvent OnDeath = new UnityEvent();
 
     // Start is called before the first frame update
     void Start()

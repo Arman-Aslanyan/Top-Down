@@ -8,45 +8,39 @@ public class Health : MonoBehaviour
     public int maxHp = 10;
 
     public bool dstryAtZero = true;
-    //private SpriteRenderer sprRend;
-    //private bool deathAnim = true;
+
+    public float invincTime = 0.3f;
+    float invTimer = 0;
+
+    float deathTime = 0.2f;
+    bool dying = false;
 
     //Call this to change the health of the respective object
-    public void HealthChange(int changeHp)
+    public void HealthChange(int amount)
     {
-        curHp += changeHp;
-        if (curHp <= 0)
+        if (amount >= 0 || invTimer <= 0)
         {
-            //optional: Negats negative hp
-            curHp = 0;
-            //Destroy(gameObject);
-            if (dstryAtZero)
-            {
-                Death d = GetComponent<Death>();
-                if (d != null)
-                {
-                    d.OnDeath.Invoke();
-                }
-                StartCoroutine(TimedDestroy(0.2f));
-            }
+            curHp += amount;
+            if (amount < 0)
+                invTimer = invincTime;
+        }
+        //if reduced to 0 and we need to destroy do that
+        if (curHp <= 0 && dstryAtZero)
+        {
+            if (dying)
+                StartCoroutine(TimedDestroy(deathTime));
         }
     }
 
     public IEnumerator TimedDestroy(float deathTime)
     {
-        /*while (deathAnim)
-        {
-            yield return new WaitForSeconds(deathTime);
-            sprRend.color = new Color(1,1,1,trans);
-            trans--;
-
-            if (trans == 0)
-            {
-                deathAnim = false;
-            }
-        }*/
-
+        dying = true;
         yield return new WaitForSeconds(deathTime);
+        Death d = GetComponent<Death>();
+        if (d != null)
+        {
+            d.OnDeath.Invoke();
+        }
         Destroy(gameObject);
     }
 
@@ -59,6 +53,9 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (invTimer > 0)
+        {
+            invTimer -= Time.deltaTime;
+        }
     }
 }

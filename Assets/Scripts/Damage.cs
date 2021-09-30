@@ -14,14 +14,14 @@ public class Damage : MonoBehaviour
         {
             hp.HealthChange(-pain);
         }
-
         if (dstryOnCollider)
-            Destroy(gameObject);
-
-        Death d = GetComponent<Death>();
-        if (d != null)
         {
-            d.OnDeath.Invoke();
+            Death d = GetComponent<Death>();
+            if (d != null)
+            {
+                d.OnDeath.Invoke();
+            }
+            Destroy(gameObject);
         }
     }
 
@@ -31,11 +31,6 @@ public class Damage : MonoBehaviour
         if (hp != null)
         {
             hp.HealthChange(-pain);
-        }
-        Death d = GetComponent<Death>();
-        if (d != null)
-        {
-            d.OnDeath.Invoke();
         }
     }
 

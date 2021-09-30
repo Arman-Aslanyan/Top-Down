@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7769600859816731832}
   - component: {fileID: 2051187934}
   - component: {fileID: 8428629997549838331}
+  - component: {fileID: 1456727930}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -102,6 +103,7 @@ MonoBehaviour:
   curHp: 10
   maxHp: 10
   dstryAtZero: 1
+  invincTime: 0.3
 --- !u!50 &25641365
 Rigidbody2D:
   serializedVersion: 4
@@ -176,3 +178,16 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1456727930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6365755729801181847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66924a5a2fb499b4d8781bc1b34e254a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: 5

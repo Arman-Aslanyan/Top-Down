@@ -11,9 +11,9 @@ public class CreateOnDeath : MonoBehaviour
 
     private void OnDeath()
     {
-        Vector3 spawnPos = transform.position + offset;
-        Vector3 randVect3 = Random.insideUnitCircle * randOffset;
-        Instantiate(prefabToMake, spawnPos + randVect3, transform.rotation);
+        Vector3 spawnPos = Random.insideUnitCircle * randOffset;
+        spawnPos += transform.position + offset;
+        Instantiate(prefabToMake, spawnPos, transform.rotation);
     }
 
     void Start()
